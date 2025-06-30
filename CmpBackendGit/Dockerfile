@@ -1,25 +1,33 @@
-# Use an official OpenJDK 17 slim image as the base
-FROM openjdk:17-jdk-slim
+# Base image with Node.js (matching your environment)
+FROM node:22.16.0-slim
 
-# Set working directory inside the container
+# Install dependencies for Java and Bun
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jdk \
+    curl \
+    unzip \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Bun (latest version or specify a version)
+RUN curl -fsSL https://bun.sh | bash
+
+# Add Bun to PATH
+ENV PATH="/root/.bun/bin:${PATH}"
+
+# Verify installations
+RUN java -version
+RUN node -v
+RUN bun -v
+
+# Set working directory
 WORKDIR /app
 
-# Copy your project files into the container
+# Copy your project files
 COPY . .
 
-# Make sure your build script is executable
+# Make your build script executable
 RUN chmod +x build.sh
 
-# Install Maven (if needed)
-# You can skip this if you're using the Maven wrapper (`mvnw`)
-RUN apt-get update && \
-    apt-get install -y wget unzip && \
-    wget https://downloads.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip && \
-    unzip apache-maven-3.8.6-bin.zip -d /opt && \
-    ln -s /opt/apache-maven-3.8.6/bin/mvn /usr/bin/mvn
-
-# Verify Maven installation
-RUN mvn -version
-
-# Default command to build your project
+# Run your build script
 CMD ["./build.sh"]
