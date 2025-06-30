@@ -3,13 +3,14 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-echo "Updating package list..."
-apt-get update
+# Remove or comment out the following lines if package management isn't supported
+# echo "Updating package list..."
+# apt-get update
 
-echo "Installing OpenJDK 17..."
-apt-get install -y openjdk-17-jdk
+# echo "Installing OpenJDK 17..."
+# apt-get install -y openjdk-17-jdk
 
-# Set JAVA_HOME environment variable
+# Set JAVA_HOME environment variable if Java is pre-installed
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 
