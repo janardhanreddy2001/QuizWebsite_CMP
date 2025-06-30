@@ -38,12 +38,13 @@
         </dependency>
 
         <!-- MySQL Driver -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.32</version>
-            <scope>runtime</scope>
-        </dependency>
+      <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.0.30</version> <!-- ✅ stable, safe version -->
+    <scope>runtime</scope>
+</dependency>
+
 
         <!-- Spring Data JPA (for MySQL) -->
         <dependency>
