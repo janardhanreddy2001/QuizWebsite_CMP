@@ -8,9 +8,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Bun
-RUN curl -fsSL https://bun.sh | bash
-ENV PATH="/root/.bun/bin:${PATH}"
+# ❌ Removed Bun install step
 
 # Set working directory
 WORKDIR /app
@@ -24,5 +22,5 @@ RUN chmod +x build.sh
 # Run build during image build
 RUN ./build.sh
 
-# Replace 'your-application.jar' with your actual JAR filename if different
+# Run the Java application
 CMD ["java", "-jar", "target/your-application.jar"]
