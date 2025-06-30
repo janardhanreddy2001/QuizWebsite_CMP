@@ -1,15 +1,15 @@
-# Base image with Node.js (matching your environment)
+# Use Node.js 22.16.0 Slim as the base image
 FROM node:22.16.0-slim
 
-# Install dependencies for Java and Bun
+# Install Java 17, curl, wget, unzip
 RUN apt-get update && apt-get install -y \
     openjdk-17-jdk \
     curl \
-    unzip \
     wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Bun (latest version or specify a version)
+# Install Bun (latest version)
 RUN curl -fsSL https://bun.sh | bash
 
 # Add Bun to PATH
@@ -23,11 +23,11 @@ RUN bun -v
 # Set working directory
 WORKDIR /app
 
-# Copy your project files
+# Copy project files
 COPY . .
 
-# Make your build script executable
+# Ensure build.sh is executable
 RUN chmod +x build.sh
 
-# Run your build script
+# Run the build script
 CMD ["./build.sh"]
