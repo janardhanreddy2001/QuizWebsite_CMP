@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Set JAVA_HOME for Render (Render provides JDK here)
-export JAVA_HOME="/opt/render/project/.jdk"
+# ✅ Use Render's Java environment variable
+export JAVA_HOME="$RENDER_JAVA_HOME"
 export PATH="$JAVA_HOME/bin:$PATH"
 
-# Confirm Java is available
+# Confirm Java works
 echo "🟢 Java version:"
-"$JAVA_HOME/bin/java" -version
+java -version
 
 # Make sure Maven wrapper is executable
 chmod +x mvnw
 
-# Run Maven to build the Spring Boot app
+# Build your Spring Boot backend
 ./mvnw clean package -DskipTests
