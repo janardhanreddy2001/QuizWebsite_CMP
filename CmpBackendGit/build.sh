@@ -1,31 +1,26 @@
 #!/bin/bash
 
-# Debug: print the value of RENDER_JAVA_HOME
-echo "RENDER_JAVA_HOME is: $RENDER_JAVA_HOME"
+# Exit immediately if a command exits with a non-zero status
+set -e
 
-# Check if 'java' command is available in PATH
-which java || echo "java command not found"
+# Update package list and install OpenJDK 17
+echo "Installing OpenJDK 17..."
+sudo apt-get update
+sudo apt-get install -y openjdk-17-jdk
 
-# If RENDER_JAVA_HOME is set, list its contents
-if [ -n "$RENDER_JAVA_HOME" ]; then
-    echo "Contents of RENDER_JAVA_HOME directory:"
-    ls -l "$RENDER_JAVA_HOME"
-fi
+# Set JAVA_HOME environment variable
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
 
-# Optional: Install Java if not available (assuming 'sudo' is permitted)
-# Uncomment the following lines if needed
-# sudo apt-get update
-# sudo apt-get install -y openjdk-17-jdk
-
-# Set JAVA_HOME if Java is installed and RENDER_JAVA_HOME is not set
-# Example for Ubuntu-based environments:
-# export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-# export PATH="$JAVA_HOME/bin:$PATH"
-
-# Confirm Java version
+# Verify Java installation
 echo "Java version:"
 java -version
 
-# Proceed with your build
+# Confirm JAVA_HOME
+echo "JAVA_HOME is set to: $JAVA_HOME"
+
+# Make mvnw executable
 chmod +x mvnw
+
+# Run your build command
 ./mvnw clean package -DskipTests
