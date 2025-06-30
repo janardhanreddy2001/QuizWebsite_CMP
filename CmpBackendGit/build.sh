@@ -3,10 +3,11 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-# Update package list and install OpenJDK 17
+echo "Updating package list..."
+apt-get update
+
 echo "Installing OpenJDK 17..."
-sudo apt-get update
-sudo apt-get install -y openjdk-17-jdk
+apt-get install -y openjdk-17-jdk
 
 # Set JAVA_HOME environment variable
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
@@ -19,7 +20,7 @@ java -version
 # Confirm JAVA_HOME
 echo "JAVA_HOME is set to: $JAVA_HOME"
 
-# Make mvnw executable
+# Make sure Maven wrapper is executable
 chmod +x mvnw
 
 # Run your build command
