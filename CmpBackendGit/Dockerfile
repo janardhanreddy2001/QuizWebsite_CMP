@@ -1,4 +1,4 @@
-# Use Node.js 22.16.0 Slim as the base image
+# Use Node.js 22.16.0 slim as the base image
 FROM node:22.16.0-slim
 
 # Install Java 17, curl, wget, unzip
@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Bun (latest version)
+# Install Bun
 RUN curl -fsSL https://bun.sh | bash
 
 # Add Bun to PATH
@@ -26,8 +26,8 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Ensure build.sh is executable
+# Make build.sh executable
 RUN chmod +x build.sh
 
-# Run the build script
+# Run your build script when container starts
 CMD ["./build.sh"]
