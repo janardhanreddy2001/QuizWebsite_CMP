@@ -1,28 +1,21 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
 set -e
 
-# Remove or comment out the following lines if package management isn't supported
-# echo "Updating package list..."
-# apt-get update
-
-# echo "Installing OpenJDK 17..."
-# apt-get install -y openjdk-17-jdk
-
-# Set JAVA_HOME environment variable if Java is pre-installed
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
-
-# Verify Java installation
-echo "Java version:"
+# Verify Java version
 java -version
 
-# Confirm JAVA_HOME
-echo "JAVA_HOME is set to: $JAVA_HOME"
+# Verify Maven (if using mvnw, skip installing Maven separately)
+if command -v mvn &> /dev/null
+then
+    echo "Maven is installed"
+else
+    echo "Maven is not installed"
+    exit 1
+fi
 
-# Make sure Maven wrapper is executable
+# Make Maven wrapper executable
 chmod +x mvnw
 
-# Run your build command
+# Run Maven build, skipping tests for faster build
 ./mvnw clean package -DskipTests
