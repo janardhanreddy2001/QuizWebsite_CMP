@@ -1,11 +1,25 @@
-# 🧱 Stage 1: Build the project using Maven and JDK
-FROM maven:3.8.5-openjdk-17 AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
-
-# 🚀 Stage 2: Run the built JAR using JDK only (lightweight)
+# Use an official OpenJDK 17 slim image as the base
 FROM openjdk:17-jdk-slim
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy your project files into the container
+COPY . .
+
+# Make sure your build script is executable
+RUN chmod +x build.sh
+
+# Install Maven (if needed)
+# You can skip this if you're using the Maven wrapper (`mvnw`)
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    wget https://downloads.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip && \
+    unzip apache-maven-3.8.6-bin.zip -d /opt && \
+    ln -s /opt/apache-maven-3.8.6/bin/mvn /usr/bin/mvn
+
+# Verify Maven installation
+RUN mvn -version
+
+# Default command to build your project
+CMD ["./build.sh"]
