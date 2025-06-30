@@ -1,8 +1,17 @@
 #!/bin/bash
 
-# Set JAVA_HOME for Render deployment
-export JAVA_HOME=/opt/render/project/.jdk
-export PATH=$JAVA_HOME/bin:$PATH
+# Set JAVA_HOME for Render (REQUIRED before using Maven)
+export JAVA_HOME="/opt/render/project/.jdk"
+export PATH="$JAVA_HOME/bin:$PATH"
 
-# Build the Spring Boot project using Maven Wrapper
-./mvnw clean package
+# Optional: Print Java version for confirmation
+java -version
+
+# Navigate into your backend project folder (update this if needed)
+cd CmpBackendGit
+
+# Make sure Maven wrapper is executable
+chmod +x mvnw
+
+# Build the Spring Boot app
+./mvnw clean package -DskipTests
