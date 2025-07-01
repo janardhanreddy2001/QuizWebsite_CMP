@@ -106,8 +106,9 @@ throw new RuntimeException("record is not found " + Integer.toString(categoryId)
 		category.setPoints(categoryDto.getPoints());
 
 		int userId = category.getUser().getUserId();
-		User user = userRespository.findById(userId)
-		    .orElseThrow(() -> new RuntimeException("record is not in user table " + String.valueOf(userId)));
+		Integer id = Integer.parseInt(userId); 
+Category category = categoryRepository.findById(id)
+    .orElseThrow(() -> new RuntimeException("record not found " + categoryId))
 
 		category.setUpdatedBy(userId); // keep as int if your entity uses int
 
