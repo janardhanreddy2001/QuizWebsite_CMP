@@ -1,6 +1,6 @@
 FROM node:22.16.0-slim
 
-# Install dependencies
+# Install Java and basic tools
 RUN apt-get update && apt-get install -y \
     openjdk-17-jdk \
     curl \
@@ -8,19 +8,17 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# ❌ Removed Bun install step
-
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy project files
+# Copy the project files
 COPY . .
 
 # Make build script executable
 RUN chmod +x build.sh
 
-# Run build during image build
+# Build the app (skipping tests)
 RUN ./build.sh
 
-# Run the Java application
+# Run the Spring Boot app
 CMD ["java", "-jar", "target/your-application.jar"]
