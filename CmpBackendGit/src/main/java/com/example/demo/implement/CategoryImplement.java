@@ -79,7 +79,7 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object fetchByIdCategory(int categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record not found " +  Integer.toString(categoryId)));
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record not found " +  categoryId));
 
 		CategoryDto categoryDto = new CategoryDto();
 		categoryDto.setCategoryId(categoryId);
@@ -123,7 +123,7 @@ throw new RuntimeException("record is not found " + Integer.toString(categoryId)
 
 		categoryRepository.deleteById(categoryId);
 		response.put("Status", "Success");
-		response.put("Message", "categoryId delete successfully " + String.valueOf(categoryId)); // ✅ fixed here
+		response.put("Message", "categoryId delete successfully " + String.valueOf(categoryId)); 
 
 		return response;
 	}
