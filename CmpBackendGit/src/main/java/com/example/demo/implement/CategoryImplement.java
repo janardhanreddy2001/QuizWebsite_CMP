@@ -34,7 +34,11 @@ public class CategoryImplement implements CategoryService {
 		} else {
 		    Category category = new Category();
 
-		    User user = userRespository.findById(categoryDto.getUserId())  .orElseThrow(() -> new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId())));
+		   User user = userRespository.findById(categoryDto.getUserId()).orElse(null);
+
+		if (user == null) {
+ 			   throw new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId()));
+		}
 
 		    category.setUser(user);                      
 		    category.setCreatedBy(user.getCreatedBy());         
