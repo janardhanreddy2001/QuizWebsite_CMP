@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.CategoryDto;
-import com.example.demo.Reposiotry.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.Service.CategoryService;
 import org.springframework.web.bind.annotation.PutMapping;
 
