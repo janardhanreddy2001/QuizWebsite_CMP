@@ -103,7 +103,7 @@ public class CategoryImplement implements CategoryService {
 		User user = userRespository.findById(userId)
 		    .orElseThrow(() -> new RuntimeException("record is not in user table " + String.valueOf(userId)));
 
-		category.setUpdatedBy(userId); // ✅ FIXED to use int
+		category.setUpdatedBy(userId); // keep as int if your entity uses int
 
 		categoryRepository.save(category);
 		return categoryDto;
@@ -118,7 +118,7 @@ public class CategoryImplement implements CategoryService {
 
 		categoryRepository.deleteById(categoryId);
 		response.put("Status", "Success");
-		response.put("Message", "categoryId delete successfully " + String.valueOf(categoryId)); // ✅ include categoryId in message
+		response.put("Message", "categoryId delete successfully " + String.valueOf(categoryId)); // ✅ fixed here
 
 		return response;
 	}
