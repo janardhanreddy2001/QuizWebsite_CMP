@@ -17,117 +17,111 @@ import com.example.demo.Service.CategoryService;
 
 @Service
 public class CategoryImplement implements CategoryService {
-	
-	@Autowired
-	private CategoryRepository categoryRepository;
-	
-	@Autowired
-	private UserRepository userRespository;
 
-	@Override
-	public Object createCategory(CategoryDto categoryDto) {
-		Map<String, Object> response = new HashMap<>();
-		
-		if (categoryRepository.countByCategoryTypeIgnoreCase(categoryDto.getCategoryType()) > 0) {
-		    response.put("Status", "Fail");
-		    response.put("Message", "Category already exists");
-		} else {
-		    Category category = new Category();
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-		   User user = userRespository.findById(categoryDto.getUserId()).orElse(null);
+    @Autowired
+    private UserRepository userRespository;
 
-		if (user == null) {
- 			   throw new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId()));
-		}
+    @Override
+    public Object createCategory(CategoryDto categoryDto) {
+        Map<String, Object> response = new HashMap<>();
 
-		    category.setUser(user);                      
-		    category.setCreatedBy(user.getCreatedBy());         
-		    category.setCategoryType(categoryDto.getCategoryType());
-		    category.setDiscription(categoryDto.getDiscription());
-		    category.setPoints(categoryDto.getPoints());
+        if (categoryRepository.countByCategoryTypeIgnoreCase(categoryDto.getCategoryType()) > 0) {
+            response.put("Status", "Fail");
+            response.put("Message", "Category already exists");
+        } else {
+            Category category = new Category();
+            User user = userRespository.findById(categoryDto.getUserId()).orElse(null);
 
-		    categoryRepository.save(category);          
+            if (user == null) {
+                throw new RuntimeException("User not found: " + categoryDto.getUserId());
+            }
 
-		    response.put("Status", "Success");
-		    response.put("Message", "Category created successfully");
-		}
+            category.setUser(user);
+            category.setCreatedBy(user.getCreatedBy());
+            category.setCategoryType(categoryDto.getCategoryType());
+            category.setDiscription(categoryDto.getDiscription());
+            category.setPoints(categoryDto.getPoints());
 
-		return response;
-	}
+            categoryRepository.save(category);
 
-	@Override
-	public List<CategoryDto> fetchAllCategory() {
-		List<CategoryDto> reponseDto = new ArrayList<>();
-		List<Category> categoryAll = categoryRepository.findAll();
-		
-		for (Category category : categoryAll) {
-			CategoryDto categoryDto = new CategoryDto();
-			categoryDto.setCategoryId(category.getCategoryId());
-			categoryDto.setCategoryType(category.getCategoryType());
-			categoryDto.setCreatedAt(category.getCreatedAt());
-			categoryDto.setPoints(category.getPoints());
-			categoryDto.setDiscription(category.getDiscription());
-			categoryDto.setCreatedBy(category.getCreatedBy());
-			categoryDto.setUpdatedAt(category.getUpdatedAt());
-			categoryDto.setUpdatedBy(category.getUpdatedBy());
+            response.put("Status", "Success");
+            response.put("Message", "Category created successfully");
+        }
 
-			reponseDto.add(categoryDto);
-		}
-		
-		return reponseDto;
-	}
+        return response;
+    }
 
-	@Override
-	public Object fetchByIdCategory(int categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record not found " +  categoryId));
+    @Override
+    public List<CategoryDto> fetchAllCategory() {
+        List<CategoryDto> responseDto = new ArrayList<>();
+        List<Category> categoryAll = categoryRepository.findAll();
 
-		CategoryDto categoryDto = new CategoryDto();
-		categoryDto.setCategoryId(categoryId);
-		categoryDto.setCategoryType(category.getCategoryType());
-		categoryDto.setCreatedAt(category.getCreatedAt());
-		categoryDto.setDiscription(category.getDiscription());
-		categoryDto.setPoints(category.getPoints());
-		categoryDto.setCreatedBy(category.getCreatedBy());
+        for (Category category : categoryAll) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setCategoryId(category.getCategoryId());
+            categoryDto.setCategoryType(category.getCategoryType());
+            categoryDto.setCreatedAt(category.getCreatedAt());
+            categoryDto.setPoints(category.getPoints());
+            categoryDto.setDiscription(category.getDiscription());
+            categoryDto.setCreatedBy(category.getCreatedBy());
+            categoryDto.setUpdatedAt(category.getUpdatedAt());
+            categoryDto.setUpdatedBy(category.getUpdatedBy());
 
-		return categoryDto;
-	}
+            responseDto.add(categoryDto);
+        }
 
-	@Override
-	public Object updateCategory(CategoryDto categoryDto, int categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElse(null);
+        return responseDto;
+    }
 
-if (category == null) {
-throw new RuntimeException("record is not found " + Integer.parseInt(categoryId));
-}
+    @Override
+    public Object fetchByIdCategory(int categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Record not found: " + categoryId));
 
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(categoryId);
+        categoryDto.setCategoryType(category.getCategoryType());
+        categoryDto.setCreatedAt(category.getCreatedAt());
+        categoryDto.setDiscription(category.getDiscription());
+        categoryDto.setPoints(category.getPoints());
+        categoryDto.setCreatedBy(category.getCreatedBy());
 
-		category.setCategoryType(categoryDto.getCategoryType());
-		category.setDiscription(categoryDto.getDiscription());
-		category.setPoints(categoryDto.getPoints());
+        return categoryDto;
+    }
 
-		int userId = category.getUser().getUserId();
-		 
-Category category = categoryRepository.findById(userId)
-    .orElseThrow(() -> new RuntimeException("record not found " + String.ValueOf(categoryId)));
+    @Override
+    public Object updateCategory(CategoryDto categoryDto, int categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElse(null);
 
-		category.setUpdatedBy(userId); // keep as int if your entity uses int
+        if (category == null) {
+            throw new RuntimeException("Record not found: " + categoryId);
+        }
 
-		categoryRepository.save(category);
-		return categoryDto;
-	}
-@Override
-public Object deleteCategory(int categoryId) {
-    Map<String, Object> response = new HashMap<>();
+        category.setCategoryType(categoryDto.getCategoryType());
+        category.setDiscription(categoryDto.getDiscription());
+        category.setPoints(categoryDto.getPoints());
 
-    Category category = categoryRepository.findById(categoryId)
-        .orElseThrow(() -> new RuntimeException("Record not found in category table: " + categoryId));
+        int userId = category.getUser().getUserId();
+        category.setUpdatedBy(userId);
 
-    categoryRepository.deleteById(categoryId);
-    response.put("Status", "Success");
-    response.put("Message", "Category deleted successfully: " + categoryId); 
+        categoryRepository.save(category);
+        return categoryDto;
+    }
 
-    return response;
-} 
+    @Override
+    public Object deleteCategory(int categoryId) {
+        Map<String, Object> response = new HashMap<>();
 
-	}
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Record not found in category table: " + categoryId));
+
+        categoryRepository.deleteById(categoryId);
+        response.put("Status", "Success");
+        response.put("Message", "Category deleted successfully: " + categoryId);
+
+        return response;
+    }
 }
