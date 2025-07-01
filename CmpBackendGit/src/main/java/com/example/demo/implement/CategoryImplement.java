@@ -26,7 +26,7 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object createCategory(CategoryDto categoryDto) {
-		Map<String,Object> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 		
 		if (categoryRepository.countByCategoryTypeIgnoreCase(categoryDto.getCategoryType()) > 0) {
 		    response.put("Status", "Fail");
@@ -103,7 +103,7 @@ public class CategoryImplement implements CategoryService {
 		User user = userRespository.findById(userId)
 		    .orElseThrow(() -> new RuntimeException("record is not in user table " + String.valueOf(userId)));
 
-		category.setUpdatedBy(String.valueOf(userId)); // 🔧 FIXED
+		category.setUpdatedBy(userId); // ✅ FIXED to use int
 
 		categoryRepository.save(category);
 		return categoryDto;
@@ -118,7 +118,7 @@ public class CategoryImplement implements CategoryService {
 
 		categoryRepository.deleteById(categoryId);
 		response.put("Status", "Success");
-		response.put("Message", "categoryId delete successfully");
+		response.put("Message", "categoryId delete successfully " + String.valueOf(categoryId)); // ✅ include categoryId in message
 
 		return response;
 	}
