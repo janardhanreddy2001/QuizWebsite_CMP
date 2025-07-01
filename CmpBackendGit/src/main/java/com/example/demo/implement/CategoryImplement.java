@@ -97,7 +97,7 @@ public class CategoryImplement implements CategoryService {
 		Category category = categoryRepository.findById(categoryId).orElse(null);
 
 if (category == null) {
-throw new RuntimeException("record is not found " + Integer.toString(categoryId));
+throw new RuntimeException("record is not found " + Integer.parseInt(categoryId));
 }
 
 
@@ -120,7 +120,7 @@ Category category = categoryRepository.findById(userId)
 	public Object deleteCategory(int categoryId) {
 		Map<String, Object> response = new HashMap<>();
 
-		Category category = categoryRepository.findById(categoryId) .orElseThrow(() -> new RuntimeException("record is not found in category table " + String.valueOf(categoryId)));
+		Category category = categoryRepository.findById(String.valueOf(categoryId)); .orElseThrow(() -> new RuntimeException("record is not found in category table " + String.valueOf(categoryId)));
 
 		categoryRepository.deleteById(categoryId);
 		response.put("Status", "Success");
