@@ -60,8 +60,8 @@ public class UserImplement implements UserService {
     }
 
     @Override
-    public List<UserDto> userFetchAll() {
-        List<UserDto> response = new ArrayList<>();
+    public List<Object> userFetchAll() {
+        List<Object> response = new ArrayList<>();
         List<User> users = userRepository.findAll();
 
         for (User user : users) {
