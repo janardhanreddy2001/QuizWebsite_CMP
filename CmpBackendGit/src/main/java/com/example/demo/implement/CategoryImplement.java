@@ -26,102 +26,100 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object createCategory(CategoryDto categoryDto) {
+		Map<String,Object> response = new HashMap<>();
 		
-			Map<String,Object> response=new HashMap<String, Object>();
-			
-			if (categoryRepository.countByCategoryTypeIgnoreCase(categoryDto.getCategoryType()) > 0) {
-			    response.put("Status", "Fail");
-			    response.put("Message", "Category already exists");
-			} else {
-			    Category category = new Category();
+		if (categoryRepository.countByCategoryTypeIgnoreCase(categoryDto.getCategoryType()) > 0) {
+		    response.put("Status", "Fail");
+		    response.put("Message", "Category already exists");
+		} else {
+		    Category category = new Category();
 
-			    
-			    User user = userRespository.findById(categoryDto.getUserId())
-			        .orElseThrow(() -> new RuntimeException("User not found: " + categoryDto.getUserId()));
+		    User user = userRespository.findById(categoryDto.getUserId())
+		        .orElseThrow(() -> new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId())));
 
-			    category.setUser(user);                      
-			    category.setCreatedBy(user.getCreatedBy());         
-			    category.setCategoryType(categoryDto.getCategoryType());
-			    category.setDiscription(categoryDto.getDiscription());
-			    category.setPoints(categoryDto.getPoints());
+		    category.setUser(user);                      
+		    category.setCreatedBy(user.getCreatedBy());         
+		    category.setCategoryType(categoryDto.getCategoryType());
+		    category.setDiscription(categoryDto.getDiscription());
+		    category.setPoints(categoryDto.getPoints());
 
-			    categoryRepository.save(category);          
+		    categoryRepository.save(category);          
 
-			    response.put("Status", "Success");
-			    response.put("Message", "Category created successfully");
-			}
+		    response.put("Status", "Success");
+		    response.put("Message", "Category created successfully");
+		}
 
-		
 		return response;
 	}
 
 	@Override
 	public List<CategoryDto> fetchAllCategory() {
+		List<CategoryDto> reponseDto = new ArrayList<>();
+		List<Category> categoryAll = categoryRepository.findAll();
 		
-		List<CategoryDto> reponseDto=new ArrayList<CategoryDto>();
-		List<Category> catefgoryAll=categoryRepository.findAll();
-		for(Category category: catefgoryAll) {
-			CategoryDto categoryDto=new CategoryDto();
-				categoryDto.setCategoryId(category.getCategoryId());
-				categoryDto.setCategoryType(category.getCategoryType());
-				categoryDto.setCreatedAt(category.getCreatedAt());
-				categoryDto.setPoints(category.getPoints());
-				categoryDto.setDiscription(category.getDiscription());
-				categoryDto.setCreatedBy(category.getCreatedBy());
-				categoryDto.setUpdatedAt(category.getUpdatedAt());
-				categoryDto.setUpdatedBy(category.getUpdatedBy());
-				
-				reponseDto.add(categoryDto);
-			}
+		for (Category category : categoryAll) {
+			CategoryDto categoryDto = new CategoryDto();
+			categoryDto.setCategoryId(category.getCategoryId());
+			categoryDto.setCategoryType(category.getCategoryType());
+			categoryDto.setCreatedAt(category.getCreatedAt());
+			categoryDto.setPoints(category.getPoints());
+			categoryDto.setDiscription(category.getDiscription());
+			categoryDto.setCreatedBy(category.getCreatedBy());
+			categoryDto.setUpdatedAt(category.getUpdatedAt());
+			categoryDto.setUpdatedBy(category.getUpdatedBy());
+
+			reponseDto.add(categoryDto);
+		}
 		
-	
 		return reponseDto;
 	}
 
 	@Override
 	public Object fetchByIdCategory(int categoryId) {
-		
-		Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new RuntimeException("record not found"+categoryId));
-		CategoryDto categoryDto=new CategoryDto();
+		Category category = categoryRepository.findById(categoryId)
+		    .orElseThrow(() -> new RuntimeException("record not found " + String.valueOf(categoryId)));
+
+		CategoryDto categoryDto = new CategoryDto();
 		categoryDto.setCategoryId(categoryId);
 		categoryDto.setCategoryType(category.getCategoryType());
 		categoryDto.setCreatedAt(category.getCreatedAt());
 		categoryDto.setDiscription(category.getDiscription());
 		categoryDto.setPoints(category.getPoints());
 		categoryDto.setCreatedBy(category.getCreatedBy());
-		
-		
+
 		return categoryDto;
 	}
 
 	@Override
 	public Object updateCategory(CategoryDto categoryDto, int categoryId) {
-		
-		Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new RuntimeException("record is not found"+categoryId));
+		Category category = categoryRepository.findById(categoryId)
+		    .orElseThrow(() -> new RuntimeException("record is not found " + String.valueOf(categoryId)));
+
 		category.setCategoryType(categoryDto.getCategoryType());
 		category.setDiscription(categoryDto.getDiscription());
 		category.setPoints(categoryDto.getPoints());
-		int userId=category.getUser().getUserId();
-		User user=userRespository.findById(userId).orElseThrow(()-> new RuntimeException("records is not in user table"+userId));
-		category.setUpdatedBy(userId);
-		
+
+		int userId = category.getUser().getUserId();
+		User user = userRespository.findById(userId)
+		    .orElseThrow(() -> new RuntimeException("record is not in user table " + String.valueOf(userId)));
+
+		category.setUpdatedBy(String.valueOf(userId)); // 🔧 FIXED
+
 		categoryRepository.save(category);
 		return categoryDto;
 	}
 
 	@Override
 	public Object deleteCategory(int categoryId) {
-		
-		Map<String, Object> response=new HashMap<String, Object>();
-	Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new RuntimeException("record is not found is category table"+categoryId));
-			
-	categoryRepository.deleteById(categoryId);
-	response.put("Status", "Success");
-	response.put("Message","categoryId  delete successfuly"); 
+		Map<String, Object> response = new HashMap<>();
 
+		Category category = categoryRepository.findById(categoryId)
+		    .orElseThrow(() -> new RuntimeException("record is not found in category table " + String.valueOf(categoryId)));
 
-		return response	;
+		categoryRepository.deleteById(categoryId);
+		response.put("Status", "Success");
+		response.put("Message", "categoryId delete successfully");
+
+		return response;
 	}
-	
-
 }
