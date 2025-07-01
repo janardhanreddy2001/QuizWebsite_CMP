@@ -15,9 +15,9 @@ import com.example.demo.DTO.UserHistoryDto;
 import com.example.demo.Entities.Content;
 import com.example.demo.Entities.User;
 import com.example.demo.Entities.UserHistory;
-import com.example.demo.Reposiotry.ContentRepository;
-import com.example.demo.Reposiotry.UserHistoryReposiotry;
-import com.example.demo.Reposiotry.UserRepository;
+import com.example.demo.reposiotry.ContentRepository;
+import com.example.demo.reposiotry.UserHistoryReposiotry;
+import com.example.demo.reposiotry.UserRepository;
 import com.example.demo.Service.UserHistoryService;
 
 @Service
