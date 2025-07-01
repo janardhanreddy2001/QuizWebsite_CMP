@@ -30,27 +30,35 @@ public class ContentImplement implements ContentService {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+@Override
+public Object createContent(ContentDto contentDto) {
 
-	@Override
-	public Object createContent(ContentDto contentDto) {
-		
-		Map<String,Object> response=new HashMap<String, Object>();
-		Content content=new Content();
-		int user=contentDto.getUserId();
-		User userId=userRepository.findById(user).orElseThrow(()-> new RuntimeException("records not found"+user));
-		content.setCreatedBy(user);
-		content.setUser(userId);
-		content.setContent(contentDto.getContent());
-		int conetnt=contentDto.getCategoryId();
-		Category contentId=categoryRepository.findById(contentDto.getCategoryId()).orElseThrow(()-> new RuntimeException("records is not found"+conetnt))	;	
-		content.setCategory(contentId);
-		contentRepository.save(content);
-		response.put("Status", "Seccuss");
-		response.put("Message", "create is successfully ");
-	
+    Map<String, Object> response = new HashMap<>();
 
-		return response;
-	}
+    Content content = new Content();
+
+    int userId = contentDto.getUserId();
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User record not found: " + userId));
+
+    content.setCreatedBy(userId);
+    content.setUser(user);
+    content.setContent(contentDto.getContent());
+
+    int categoryId = contentDto.getCategoryId();
+    Category category = categoryRepository.findById(categoryId)
+        .orElseThrow(() -> new RuntimeException("Category record not found: " + categoryId));
+
+    content.setCategory(category);
+
+    contentRepository.save(content);
+
+    response.put("Status", "Success");
+    response.put("Message", "Content created successfully");
+
+    return response;
+}
+
 
 	@Override
 	public List<Object> fetchAllContent() {

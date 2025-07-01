@@ -121,6 +121,7 @@ public class CategoryImplement implements CategoryService {
         categoryRepository.deleteById(categoryId);
         response.put("Status", "Success");
         response.put("Message", "Category deleted successfully: " + categoryId);
+        response.put("CategoryId", String.valueOf(categoryId)); // ensures String value
 
         return response;
     }
