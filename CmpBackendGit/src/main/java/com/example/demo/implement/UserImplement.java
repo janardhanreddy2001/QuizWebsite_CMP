@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.DTO.LoginDto;
 import com.example.demo.DTO.UserDto;
@@ -18,159 +17,161 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.Service.UserService;
 
-
 @Service
-public class UserImplement implements UserService{
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private RoleRepository roleRepository;
+public class UserImplement implements UserService {
 
-	@Override
-	public Object createRole(UserDto userDto) {
-		
-		Map<String,Object> response=new HashMap<>();
-		
-		if(userRepository.countByEmailId(userDto.getEmailId())>0) {
-			
-			response.put("Status", "fail");
-			response.put("message", "alread email is existed");
-			
-		}
-		else {
-		
-		User user=new User();
-		
-		int user1=userDto.getRoleId();
-		Role userId=roleRepository.findById(user1).orElseThrow(()-> new RuntimeException("find not found"));
-		user.setRole(userId);
-		user.setCreatedBy(user1);
-		
-		
-		user.setAddress(userDto.getAddress());
-		user.setCity(userDto.getCity());
-		user.setPincode(userDto.getPincode());
-		user.setContact(userDto.getContact());
-		user.setEmailId(userDto.getEmailId());
-		user.setFirstName(userDto.getFirstName());
-		user.setLastName(userDto.getLastName());
-		user.setPassword(userDto.getPassword());
-		user.setPincode(userDto.getPincode());
-		user.setState(userDto.getState());
-		
-		userRepository.save(user);
-		response.put("status", "successfully");
-		response.put("message", "create successfully");
-		}
-		return response;
-		
-	}
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public List<Object> userFetchAll() {
-		
-		List<Object> response =new ArrayList();
-		List<User> user=userRepository.findAll();
-		
-		for(User use:user) {
-			UserDto user1=new UserDto();
-			user1.setAddress(use.getAddress());	
-			user1.setCity(use.getCity());
-			user1.setContact(use.getContact());
-			user1.setEmailId(use.getEmailId());
-			user1.setPassword(use.getPassword());
-			user1.setState(use.getState());
-			user1.setFirstName(use.getFirstName());
-			user1.setLastName(use.getLastName());
-			user1.setPincode(use.getPincode());
-			user1.setUserId(use.getUserId());
-			response.add(user1);
-		}
-		
-		return response;
-	}
+    @Autowired
+    private RoleRepository roleRepository;
 
-	@Override
-	public Object fuserFetchId(int userId) {
+    @Override
+    public Map<String, Object> createRole(UserDto userDto) {
+        Map<String, Object> response = new HashMap<>();
 
-		UserDto userDto=new UserDto();
-		User user=userRepository.findById(userId).orElseThrow(()-> new RuntimeException("record not fouund"));
-		userDto.setAddress(user.getAddress());
-		userDto.setCity(user.getCity());	
-		userDto.setAddress(user.getAddress());
-		userDto.setEmailId(user.getEmailId());
-		userDto.setFirstName(user.getFirstName());
-		userDto.setLastName(user.getLastName());
-		userDto.setPincode(user.getPincode());
-		userDto.setUserId(userId);
-		return userDto;
-	}
-	
-	@Override
-    public Object updateUserDetails(int userId, UserDto userDtoUpd) {
-        Optional<User> optionalUser = userRepository.findById((int) userId);
-        
+        if (userRepository.countByEmailId(userDto.getEmailId()) > 0) {
+            response.put("status", "fail");
+            response.put("message", "Email already exists");
+        } else {
+            User user = new User();
+            int roleId = userDto.getRoleId();
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new RuntimeException("Role not found with ID: " + roleId));
+
+            user.setRole(role);
+            user.setCreatedBy(roleId);
+            user.setAddress(userDto.getAddress());
+            user.setCity(userDto.getCity());
+            user.setPincode(userDto.getPincode());
+            user.setContact(userDto.getContact());
+            user.setEmailId(userDto.getEmailId());
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setPassword(userDto.getPassword());
+            user.setState(userDto.getState());
+
+            userRepository.save(user);
+            response.put("status", "success");
+            response.put("message", "User created successfully");
+        }
+
+        return response;
+    }
+
+    @Override
+    public List<UserDto> userFetchAll() {
+        List<UserDto> response = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            UserDto dto = new UserDto();
+            dto.setAddress(user.getAddress());
+            dto.setCity(user.getCity());
+            dto.setContact(user.getContact());
+            dto.setEmailId(user.getEmailId());
+            dto.setPassword(user.getPassword());
+            dto.setState(user.getState());
+            dto.setFirstName(user.getFirstName());
+            dto.setLastName(user.getLastName());
+            dto.setPincode(user.getPincode());
+            dto.setUserId(user.getUserId());
+            dto.setRoleId(user.getRole().getRoleId());
+            response.add(dto);
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDto fuserFetchId(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+        UserDto userDto = new UserDto();
+        userDto.setAddress(user.getAddress());
+        userDto.setCity(user.getCity());
+        userDto.setEmailId(user.getEmailId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setPincode(user.getPincode());
+        userDto.setUserId(userId);
+        userDto.setRoleId(user.getRole().getRoleId());
+
+        return userDto;
+    }
+
+    @Override
+    public Map<String, Object> updateUserDetails(int userId, UserDto userDtoUpd) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        Map<String, Object> response = new HashMap<>();
+
         if (optionalUser.isEmpty()) {
-            return null; 
+            response.put("status", "fail");
+            response.put("message", "User not found");
+            return response;
         }
 
         User existingUser = optionalUser.get();
-
-     
         existingUser.setFirstName(userDtoUpd.getFirstName());
         existingUser.setLastName(userDtoUpd.getLastName());
         existingUser.setAddress(userDtoUpd.getAddress());
         existingUser.setCity(userDtoUpd.getCity());
         existingUser.setState(userDtoUpd.getState());
         existingUser.setPincode(userDtoUpd.getPincode());
-        int role=userDtoUpd.getRoleId();
-        Role userI=roleRepository.findById(role).orElseThrow(()-> new RuntimeException("userId is not found"+role));
-        existingUser.setUpdatedBy(userI.getRoleId());;
+
+        int roleId = userDtoUpd.getRoleId();
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new RuntimeException("Role not found with ID: " + roleId));
+        existingUser.setUpdatedBy(roleId);
+        existingUser.setRole(role);
         existingUser.setContact(userDtoUpd.getContact());
         existingUser.setEmailId(userDtoUpd.getEmailId());
         existingUser.setPassword(userDtoUpd.getPassword());
-   
 
-        return userRepository.save(existingUser);
+        userRepository.save(existingUser);
+
+        response.put("status", "success");
+        response.put("message", "User updated successfully");
+
+        return response;
     }
-	
 
-	@Override
-	public String deleteUser(int userId) {
-		userRepository.deleteById(userId);
-		return "delete successfully";
-	}
+    @Override
+    public String deleteUser(int userId) {
+        if (!userRepository.existsById(userId)) {
+            return "User not found";
+        }
+        userRepository.deleteById(userId);
+        return "User deleted successfully";
+    }
 
-	 @Override
-	    public Object loginCreate(LoginDto loginDto) {
-	        Map<String, Object> response = new HashMap<>();
+    @Override
+    public Map<String, Object> loginCreate(LoginDto loginDto) {
+        Map<String, Object> response = new HashMap<>();
+        String emailId = loginDto.getEmailId();
+        String password = loginDto.getPassword();
 
-	        String emailId = loginDto.getEmailId();
-	        String password = loginDto.getPassword();
+        Optional<User> login = userRepository.findByEmailId(emailId);
 
-	        Optional<User> login = userRepository.findByEmailId(emailId);  
+        if (login.isEmpty()) {
+            response.put("status", "fail");
+            response.put("message", "Email ID not found");
+            return response;
+        }
 
-	        if (login.isEmpty()) {
-	            response.put("Status", "Fail");
-	            response.put("Message", "EmailId not found");
-	            return response;
-	        }	        
-	        User user = login.get();
-	        if (password.equals(user.getPassword())) {
-	            response.put("Status", "Success");		
-	            response.put("Message", "Login successful");
-	            response.put("roleId", user.getRole().getRoleId());
-	            response.put("Name", user.getFirstName());
-	            response.put("userId", user.getUserId());
-	        } else {
-	            response.put("Status", "Fail");
-	            response.put("Message", "Incorrect password");
-	        }
+        User user = login.get();
+        if (password.equals(user.getPassword())) {
+            response.put("status", "success");
+            response.put("message", "Login successful");
+            response.put("roleId", user.getRole().getRoleId());
+            response.put("name", user.getFirstName());
+            response.put("userId", user.getUserId());
+        } else {
+            response.put("status", "fail");
+            response.put("message", "Incorrect password");
+        }
 
-	        return response;
-	    }
+        return response;
+    }
 }
-
-
