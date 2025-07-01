@@ -47,7 +47,7 @@ public class ContentImplement implements ContentService {
 		contentRepository.save(content);
 		response.put("Status", "Seccuss");
 		response.put("Message", "create is successfully ");
-		map.put("contentId", String.valueOf(content.getId())); 
+		 response.put("contentId", String.valueOf(content.getContentId()));
 
 		return response;
 	}
