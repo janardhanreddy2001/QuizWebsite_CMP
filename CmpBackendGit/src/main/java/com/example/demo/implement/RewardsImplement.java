@@ -8,8 +8,8 @@ import com.example.demo.Entities.Category;
 import com.example.demo.Entities.Content;
 import com.example.demo.Entities.Rewards;
 import com.example.demo.Entities.User;
-import com.example.demo.reposiotry.RewardsRepository;
-import com.example.demo.reposiotry.UserRepository;
+import com.example.demo.repository.RewardsRepository;
+import com.example.demo.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

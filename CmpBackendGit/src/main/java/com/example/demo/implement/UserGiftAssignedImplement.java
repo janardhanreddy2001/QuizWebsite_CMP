@@ -12,9 +12,9 @@ import com.example.demo.DTO.UserGiftAssignedDto;
 import com.example.demo.Entities.Rewards;
 import com.example.demo.Entities.UserGiftAssigned;
 import com.example.demo.Entities.UserHistory;
-import com.example.demo.reposiotry.RewardsRepository;
-import com.example.demo.reposiotry.UserGiftAssignedReposiotry;
-import com.example.demo.reposiotry.UserHistoryReposiotry;
+import com.example.demo.repository.RewardsRepository;
+import com.example.demo.repository.UserGiftAssignedReposiotry;
+import com.example.demo.repository.UserHistoryReposiotry;
 import com.example.demo.Service.UserGiftAssignedService;
 
 @Service

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.DTO.CategoryDto;
 import com.example.demo.Entities.Category;
 import com.example.demo.Entities.User;
-import com.example.demo.reposiotry.CategoryRepository;
-import com.example.demo.reposiotry.UserRepository;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.Service.CategoryService;
 
 @Service

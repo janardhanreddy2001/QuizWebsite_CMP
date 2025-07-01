@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.RoleDto;
 import com.example.demo.Entities.Role;
-import com.example.demo.reposiotry.RoleRepository;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.Service.RoleService;
 
 @Service

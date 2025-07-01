@@ -14,9 +14,9 @@ import com.example.demo.DTO.QuizDto;
 import com.example.demo.Entities.Category;
 import com.example.demo.Entities.Content;
 import com.example.demo.Entities.User;
-import com.example.demo.reposiotry.CategoryRepository;
-import com.example.demo.reposiotry.ContentRepository;
-import com.example.demo.reposiotry.UserRepository;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.ContentRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.Service.ContentService;
 
 @Service
