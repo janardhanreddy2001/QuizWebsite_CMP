@@ -34,8 +34,7 @@ public class CategoryImplement implements CategoryService {
 		} else {
 		    Category category = new Category();
 
-		    User user = userRespository.findById(categoryDto.getUserId())
-		        .orElseThrow(() -> new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId())));
+		    User user = userRespository.findById(categoryDto.getUserId())  .orElseThrow(() -> new RuntimeException("User not found: " + String.valueOf(categoryDto.getUserId())));
 
 		    category.setUser(user);                      
 		    category.setCreatedBy(user.getCreatedBy());         
@@ -76,8 +75,7 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object fetchByIdCategory(int categoryId) {
-		Category category = categoryRepository.findById(categoryId)
-		    .orElseThrow(() -> new RuntimeException("record not found " + String.valueOf(categoryId)));
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record not found " + String.valueOf(categoryId)));
 
 		CategoryDto categoryDto = new CategoryDto();
 		categoryDto.setCategoryId(categoryId);
@@ -92,8 +90,7 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object updateCategory(CategoryDto categoryDto, int categoryId) {
-		Category category = categoryRepository.findById(categoryId)
-		    .orElseThrow(() -> new RuntimeException("record is not found " + String.valueOf(categoryId)));
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record is not found " + String.valueOf(categoryId)));
 
 		category.setCategoryType(categoryDto.getCategoryType());
 		category.setDiscription(categoryDto.getDiscription());
@@ -113,8 +110,7 @@ public class CategoryImplement implements CategoryService {
 	public Object deleteCategory(int categoryId) {
 		Map<String, Object> response = new HashMap<>();
 
-		Category category = categoryRepository.findById(categoryId)
-		    .orElseThrow(() -> new RuntimeException("record is not found in category table " + String.valueOf(categoryId)));
+		Category category = categoryRepository.findById(categoryId) .orElseThrow(() -> new RuntimeException("record is not found in category table " + String.valueOf(categoryId)));
 
 		categoryRepository.deleteById(categoryId);
 		response.put("Status", "Success");
