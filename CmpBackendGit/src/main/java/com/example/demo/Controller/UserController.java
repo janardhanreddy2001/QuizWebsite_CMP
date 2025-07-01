@@ -18,7 +18,7 @@ import com.example.demo.DTO.LoginDto;
 import com.example.demo.DTO.UserDto;
 import com.example.demo.Entities.Role;
 import com.example.demo.Entities.User;
-import com.example.demo.Reposiotry.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.Service.UserService;
 
 @RestController
