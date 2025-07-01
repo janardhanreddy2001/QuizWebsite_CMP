@@ -94,7 +94,11 @@ public class CategoryImplement implements CategoryService {
 
 	@Override
 	public Object updateCategory(CategoryDto categoryDto, int categoryId) {
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("record is not found " + String.valueOf(categoryId)));
+		Category category = categoryRepository.findById(categoryId).orThrow((null));
+		if(category == null){
+
+			throw new RuntimeException("record is not found " + String.valueOf(categoryId)));
+		}
 
 		category.setCategoryType(categoryDto.getCategoryType());
 		category.setDiscription(categoryDto.getDiscription());
