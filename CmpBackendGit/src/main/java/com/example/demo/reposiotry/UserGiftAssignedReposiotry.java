@@ -1,4 +1,4 @@
-package com.example.demo.Reposiotry;
+package com.example.demo.reposiotry;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
