@@ -1,4 +1,4 @@
-package com.example.demo.repository; // ✅ also fix spelling from Reposiotry → repository
+package com.example.demo.repository; 
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
