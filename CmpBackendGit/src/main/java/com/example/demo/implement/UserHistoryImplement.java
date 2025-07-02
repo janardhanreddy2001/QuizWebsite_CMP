@@ -10,15 +10,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.DTO.QuizCheckEntireDto;
-import com.example.demo.DTO.UserHistoryDto;
-import com.example.demo.Entities.Content;
-import com.example.demo.Entities.User;
-import com.example.demo.Entities.UserHistory;
+import com.example.demo.dto.QuizCheckEntireDto;
+import com.example.demo.dto.UserHistoryDto;
+import com.example.demo.entities.Content;
+import com.example.demo.entities.User;
+import com.example.demo.entities.UserHistory;
 import com.example.demo.repository.ContentRepository;
 import com.example.demo.repository.UserHistoryReposiotry;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.Service.UserHistoryService;
+import com.example.demo.service.UserHistoryService;
 
 @Service
 public class UserHistoryImplement implements UserHistoryService {

@@ -1,13 +1,13 @@
 // File: com.example.demo.implement.RewardsImplement.java
 package com.example.demo.implement;
 
-import com.example.demo.Service.RewardsService;
-import com.example.demo.DTO.ContentDto;
-import com.example.demo.DTO.RewardsDto;
-import com.example.demo.Entities.Category;
-import com.example.demo.Entities.Content;
-import com.example.demo.Entities.Rewards;
-import com.example.demo.Entities.User;
+import com.example.demo.service.RewardsService;
+import com.example.demo.dto.ContentDto;
+import com.example.demo.dto.RewardsDto;
+import com.example.demo.entities.Category;
+import com.example.demo.entities.Content;
+import com.example.demo.entities.Rewards;
+import com.example.demo.entities.User;
 import com.example.demo.repository.RewardsRepository;
 import com.example.demo.repository.UserRepository;
 

@@ -8,14 +8,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.DTO.UserGiftAssignedDto;
-import com.example.demo.Entities.Rewards;
-import com.example.demo.Entities.UserGiftAssigned;
-import com.example.demo.Entities.UserHistory;
+import com.example.demo.dto.UserGiftAssignedDto;
+import com.example.demo.entities.Rewards;
+import com.example.demo.entities.UserGiftAssigned;
+import com.example.demo.entities.UserHistory;
 import com.example.demo.repository.RewardsRepository;
 import com.example.demo.repository.UserGiftAssignedReposiotry;
 import com.example.demo.repository.UserHistoryReposiotry;
-import com.example.demo.Service.UserGiftAssignedService;
+import com.example.demo.service.UserGiftAssignedService;
 
 @Service
 public class UserGiftAssignedImplement implements UserGiftAssignedService {

@@ -8,12 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.DTO.CategoryDto;
-import com.example.demo.Entities.Category;
-import com.example.demo.Entities.User;
+import com.example.demo.dto.CategoryDto;
+import com.example.demo.entities.Category;
+import com.example.demo.entities.User;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.Service.CategoryService;
+import com.example.demo.service.CategoryService;
 
 @Service
 public class CategoryImplement implements CategoryService {

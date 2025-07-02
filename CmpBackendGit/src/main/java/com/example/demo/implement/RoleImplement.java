@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.DTO.RoleDto;
-import com.example.demo.Entities.Role;
+import com.example.demo.dto.RoleDto;
+import com.example.demo.entities.Role;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.Service.RoleService;
+import com.example.demo.service.RoleService;
 
 @Service
 public class RoleImplement implements RoleService {

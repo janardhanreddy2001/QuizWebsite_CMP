@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Entities.User;
-import com.example.demo.Entities.UserHistory;
+import com.example.demo.entities.User;
+import com.example.demo.entities.UserHistory;
 
 @Repository
 public interface UserHistoryReposiotry extends JpaRepository<UserHistory, Integer> {
