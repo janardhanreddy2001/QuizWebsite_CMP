@@ -79,7 +79,7 @@ public class CategoryImplement implements CategoryService {
     @Override
     public Object fetchByIdCategory(int categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Record not found: " + categoryId));
+                .orElseThrow(() -> new RuntimeException("Record not found: " + Integer.perseInt(categoryId)));
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setCategoryId(categoryId);
@@ -97,7 +97,7 @@ public class CategoryImplement implements CategoryService {
         Category category = categoryRepository.findById(categoryId).orElse(null);
 
         if (category == null) {
-            throw new RuntimeException("Record not found: " + categoryId);
+            throw new RuntimeException("Record not found: " +String.valueOf(categoryId) );
         }
 
         category.setCategoryType(categoryDto.getCategoryType());
@@ -116,7 +116,7 @@ public class CategoryImplement implements CategoryService {
         Map<String, Object> response = new HashMap<>();
 
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Record not found in category table: " + categoryId));
+                .orElseThrow(() -> new RuntimeException("Record not found in category table categoryId "));
 
         categoryRepository.deleteById(categoryId);
         response.put("Status", "Success");
