@@ -79,7 +79,7 @@ public class CategoryImplement implements CategoryService {
     @Override
     public Object fetchByIdCategory(int categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Record not found: " + Integer.perseInt(categoryId)));
+                .orElseThrow(() -> new RuntimeException("Record not found: " + Integer.parseInt(categoryId)));
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setCategoryId(categoryId);
